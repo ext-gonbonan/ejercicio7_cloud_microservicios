@@ -1,0 +1,4 @@
+FROM openjdk:17-jdk-slim
+ADD hotel.jar hotel.jar
+EXPOSE 8083
+ENTRYPOINT ["java","-jar","/hotel.jar"]
