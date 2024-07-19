@@ -1,4 +1,4 @@
-package com.curso.inicio;
+package com.hotel.inicio;
 
 import java.util.List;
 
@@ -9,8 +9,8 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
-import com.curso.dao.CursoDao;
-import com.curso.model.Curso;
+import com.hotel.dao.CursoDao;
+import com.hotel.model.Curso;
 
 // Curso 1
 //@EnableDiscoveryClient

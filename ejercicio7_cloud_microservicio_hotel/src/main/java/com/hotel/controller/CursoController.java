@@ -1,4 +1,4 @@
-package com.curso.controller;
+package com.hotel.controller;
 
 import java.util.List;
 
@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.curso.model.Curso;
-import com.curso.service.CursoService;
+import com.hotel.model.Curso;
+import com.hotel.service.CursoService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;

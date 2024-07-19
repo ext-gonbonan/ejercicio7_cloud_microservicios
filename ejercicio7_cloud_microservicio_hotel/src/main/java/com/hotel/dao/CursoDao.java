@@ -1,4 +1,4 @@
-package com.curso.dao;
+package com.hotel.dao;
 
 import java.util.List;
 
@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import com.curso.model.Curso;
+import com.hotel.model.Curso;
 
 @Repository
 public interface CursoDao extends JpaRepository<Curso, String> {

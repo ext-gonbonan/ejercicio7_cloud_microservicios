@@ -1,4 +1,4 @@
-package com.curso.model;
+package com.hotel.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
