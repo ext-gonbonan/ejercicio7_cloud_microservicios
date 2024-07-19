@@ -1,8 +1,8 @@
-package com.curso.service;
+package com.reserva.service;
 
 import java.util.List;
 
-import com.curso.model.Curso;
+import com.reserva.model.Curso;
 
 public interface CursoService {
 	

@@ -1,12 +1,12 @@
-package com.curso.service;
+package com.reserva.service;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.curso.dao.CursoDao;
-import com.curso.model.Curso;
+import com.reserva.dao.CursoDao;
+import com.reserva.model.Curso;
 
 @Service
 public class CursoServiceImpl implements CursoService {

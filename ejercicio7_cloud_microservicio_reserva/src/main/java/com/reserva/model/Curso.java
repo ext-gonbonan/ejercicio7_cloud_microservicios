@@ -1,4 +1,4 @@
-package com.curso.model;
+package com.reserva.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

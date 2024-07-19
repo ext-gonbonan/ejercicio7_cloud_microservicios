@@ -1,4 +1,4 @@
-package com.curso.inicio;
+package com.reserva.inicio;
 
 import java.util.List;
 
@@ -10,8 +10,8 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
-import com.curso.dao.CursoDao;
-import com.curso.model.Curso;
+import com.reserva.dao.CursoDao;
+import com.reserva.model.Curso;
 
 // Curso 3
 @EnableDiscoveryClient
