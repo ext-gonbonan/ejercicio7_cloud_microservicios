@@ -1,7 +1,7 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3307/cursosbd?serverTimezone=UTC
+    url: jdbc:mysql://localhost:3307/vuelo_db?serverTimezone=UTC
     username: root
     password: password
   jpa:
@@ -25,5 +25,5 @@ server:
 
 # Configuración Spring Doc
 springdoc:
-  packages-to-scan: com.curso.controller
+  packages-to-scan: com.vuelo.controller
   paths-to-match: /**
