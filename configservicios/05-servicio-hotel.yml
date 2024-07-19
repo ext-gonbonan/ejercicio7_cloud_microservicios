@@ -1,0 +1,29 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3307/hotel_db?serverTimezone=UTC
+    username: root
+    password: password
+  jpa:
+    hibernate:
+      naming.implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
+      naming.physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+  devtools:
+    restart:
+      enabled: true
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka
+    # mejoras adicionales
+    register-with-eureka: true
+    fetch-registry: true
+
+# Asiganmos un puerto de forma aleatoria
+server:
+  port: 0
+
+# Configuración Spring Doc
+springdoc:
+  packages-to-scan: com.hotel.controller
+  paths-to-match: /**
