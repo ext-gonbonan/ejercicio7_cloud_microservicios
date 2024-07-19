@@ -14,9 +14,9 @@ import com.hotel.model.Curso;
 
 // Curso 1
 //@EnableDiscoveryClient
-@EntityScan(basePackages = {"com.curso.model"})
-@EnableJpaRepositories(basePackages = {"com.curso.dao"})
-@SpringBootApplication(scanBasePackages = {"com.curso.controller","com.curso.service", "com.curso.inicio"})
+@EntityScan(basePackages = {"com.hotel.model"})
+@EnableJpaRepositories(basePackages = {"com.hotel.dao"})
+@SpringBootApplication(scanBasePackages = {"com.hotel.controller","com.hotel.service", "com.hotel.inicio"})
 public class Application {
 
 	public static void main(String[] args) {
