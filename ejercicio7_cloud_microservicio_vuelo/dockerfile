@@ -1,0 +1,4 @@
+FROM openjdk:17-jdk-slim
+ADD vuelo.jar vuelo.jar
+EXPOSE 8085
+ENTRYPOINT ["java","-jar","/vuelo.jar"]

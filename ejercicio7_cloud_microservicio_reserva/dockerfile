@@ -1,0 +1,4 @@
+FROM openjdk:17-jdk-slim
+ADD reserva.jar reserva.jar
+EXPOSE 8084
+ENTRYPOINT ["java","-jar","/reserva.jar"]

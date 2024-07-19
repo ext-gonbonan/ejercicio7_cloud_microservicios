@@ -1,0 +1,4 @@
+FROM openjdk:17-jdk-slim
+ADD gateway.jar gateway.jar
+EXPOSE 8082
+ENTRYPOINT ["java","-jar","/gateway.jar"]

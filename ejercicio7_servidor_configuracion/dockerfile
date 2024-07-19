@@ -1,0 +1,4 @@
+FROM openjdk:17-jdk-slim
+ADD configuracion.jar configuracion.jar
+EXPOSE 8081
+ENTRYPOINT ["java","-jar","/configuracion.jar"]
