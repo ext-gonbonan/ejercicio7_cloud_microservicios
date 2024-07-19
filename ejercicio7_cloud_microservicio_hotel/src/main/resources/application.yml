@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: 07-servicio-hotel
+  #cloud:
+    #config:
+      #uri: http://localhost:8888  # Localización Spring Cloud Config
+
+#  nueva configuración utiliza la característica de "Config Data Import"
+  config:
+    import:
+    - "optional:configserver:http://localhost:8888"
+
+logging:
+  level:
+    '[org.springframework.cloud.config]': DEBUG
+    #'[org.springframework.boot.autoconfigure.jdbc]': DEBUG
+    #'[org.springframework.boot.web.embedded.tomcat]': DEBUG
+    #'[org.springframework.boot.web.client]': DEBUG

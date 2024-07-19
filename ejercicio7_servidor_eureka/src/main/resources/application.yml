@@ -1,0 +1,18 @@
+server:
+  port: 8761
+
+spring:
+  application:
+    name: eureka-server
+  devtools:
+    restart:
+      enabled: true
+
+eureka:
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+# nos seguramos de que Eureka registre correctamente la instancia con el puerto asignado
+  instance:
+    instance-id: ${spring.application.name}:${random.value}
+    #prefer-ip-address: false

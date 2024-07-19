@@ -1,0 +1,20 @@
+server:
+  port: 8888
+spring:
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/ext-gonbonan/ejercicio7_cloud_microservicios
+          default-label: master
+          search-paths:
+          - configservicios # le dice al servidor de configuración dónde buscar los archivos de configuración dentro del repositorio
+
+  devtools:
+    restart:
+      enabled: true
+
+logging:
+  level:
+    '[org.springframework.cloud.config]': DEBUG
+    '[org.springframework.boot.autoconfigure.jdbc]': DEBUG
