@@ -1,4 +1,4 @@
-package com.curso.inicio;
+package com.vuelo.inicio;
 
 import java.util.List;
 
@@ -10,14 +10,14 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
-import com.curso.dao.CursoDao;
-import com.curso.model.Curso;
+import com.vuelo.dao.CursoDao;
+import com.vuelo.model.Curso;
 
 // Curso 2
 @EnableDiscoveryClient
-@EntityScan(basePackages = {"com.curso.model"})
-@EnableJpaRepositories(basePackages = {"com.curso.dao"})
-@SpringBootApplication(scanBasePackages = {"com.curso.controller","com.curso.service", "com.curso.inicio"})
+@EntityScan(basePackages = {"com.vuelo.model"})
+@EnableJpaRepositories(basePackages = {"com.vuelo.dao"})
+@SpringBootApplication(scanBasePackages = {"com.vuelo.controller","com.vuelo.service", "com.vuelo.inicio"})
 public class Application {
 
 	public static void main(String[] args) {

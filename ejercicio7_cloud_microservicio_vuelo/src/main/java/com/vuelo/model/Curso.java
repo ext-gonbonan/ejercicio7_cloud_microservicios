@@ -1,4 +1,4 @@
-package com.curso.model;
+package com.vuelo.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
