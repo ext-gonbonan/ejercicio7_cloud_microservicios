@@ -1,6 +1,8 @@
 spring:
   application:
     name: 07-servicio-hotel
+  main:
+    lazy-initialization: true
   #cloud:
     #config:
       #uri: http://localhost:8888  # Localización Spring Cloud Config
