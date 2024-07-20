@@ -3,8 +3,11 @@ package com.reserva.service;
 import com.reserva.dao.ReservaDao;
 import com.reserva.model.Reserva;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
@@ -23,10 +26,17 @@ public class ReservaServiceImpl implements ReservaService {
 
 	@Override
 	public Reserva createReserva(Reserva reserva) {
-		// Actualizar plazas de vuelo
-		restTemplate.put(VUELO_SERVICE_URL + "/" + reserva.getIdVuelo() + "/" + reserva.getTotalPersonas(), null);
-		
-		return reservaDao.save(reserva);
+		try {
+			// Actualizar plazas de vuelo
+			restTemplate.put(VUELO_SERVICE_URL + "/" + reserva.getIdVuelo() + "/" + reserva.getTotalPersonas(), null);
+		        
+			// Si no se lanzó ninguna excepción, la actualización fue exitosa
+			return reservaDao.save(reserva);
+			
+		} catch (RestClientException e) {
+			// La actualización del vuelo falló
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "No se pudo actualizar las plazas del vuelo: " + e.getMessage());
+		}
 	}
 
 	@Override
@@ -63,19 +73,32 @@ public class ReservaServiceImpl implements ReservaService {
         return Optional.empty();
     }
 
-    @Override
-    public boolean deleteReserva(Long id) {
-    	Optional<Reserva> existingReserva = reservaDao.findById(id);
-        if (existingReserva.isPresent()) {
-            // Liberamos plazas de vuelo
-            Reserva reserva = existingReserva.get();
-            restTemplate.put(VUELO_SERVICE_URL + "/" + reserva.getIdVuelo() + "?plazasReservadas=" + -1, null);
-            
-            reservaDao.deleteById(id);
-            return true;
-        }
-        // no se puede eliminar la reserva
-        return false;
-    }
+	// No es recomendado usar @Transactional en los microservicios
+	public boolean deleteReserva(Long id) {
+	    Optional<Reserva> existingReserva = reservaDao.findById(id);
+	    if (existingReserva.isPresent()) {
+	        Reserva reserva = existingReserva.get();
+	        try {
+	            // Paso 1: Eliminanos la reserva
+	            reservaDao.deleteById(id);
+	            
+	            // Paso 2: Liberamos las plazas
+	            try {
+	                restTemplate.put(VUELO_SERVICE_URL + "/" + reserva.getIdVuelo() + "/" + (-reserva.getTotalPersonas()), null);
+	            } catch (Exception e) {
+	                // Si falla la liberación de plazas, revertimos la eliminación de la reserva
+	                reservaDao.save(reserva);
+	                // y enviamos excepcion con el error
+	                throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "No se pudieron liberar las plazas del vuelo. La reserva no se eliminó.");
+	            }
+	            
+	            return true;
+	            
+	        } catch (Exception e) {
+	            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error al eliminar la reserva: " + e.getMessage());
+	        }
+	    }
+	    return false;
+	}
 
 }
