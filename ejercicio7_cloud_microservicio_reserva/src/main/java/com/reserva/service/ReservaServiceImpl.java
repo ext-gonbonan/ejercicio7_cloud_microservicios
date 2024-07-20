@@ -24,12 +24,14 @@ public class ReservaServiceImpl implements ReservaService {
 	@Override
 	public Reserva createReserva(Reserva reserva) {
 		// Actualizar plazas de vuelo
-		restTemplate.put(VUELO_SERVICE_URL + "/" + reserva.getIdVuelo() + "?plazasReservadas=" + 1, null);
+		restTemplate.put(VUELO_SERVICE_URL + "/" + reserva.getIdVuelo() + "/" + reserva.getTotalPersonas(), null);
+		
 		return reservaDao.save(reserva);
 	}
 
 	@Override
 	public List<Reserva> findReservasByHotel(Long idHotel) {
+		
 		return reservaDao.findByIdHotel(idHotel);
 	}
 
@@ -42,6 +44,7 @@ public class ReservaServiceImpl implements ReservaService {
 	public List<Reserva> findReservasByNombreHotel(String nombreHotel) {
 		// Obtener idHotel del microservicio de hotel
 		Long idHotel = restTemplate.getForObject(HOTEL_SERVICE_URL + "/" + nombreHotel, Long.class);
+		
 		return reservaDao.findByIdHotel(idHotel);
 	}
 	
@@ -54,6 +57,7 @@ public class ReservaServiceImpl implements ReservaService {
             reserva.setDni(updatedReserva.getDni());
             reserva.setIdHotel(updatedReserva.getIdHotel());
             reserva.setIdVuelo(updatedReserva.getIdVuelo());
+            
             return Optional.of(reservaDao.save(reserva));
         }
         return Optional.empty();
@@ -63,13 +67,14 @@ public class ReservaServiceImpl implements ReservaService {
     public boolean deleteReserva(Long id) {
     	Optional<Reserva> existingReserva = reservaDao.findById(id);
         if (existingReserva.isPresent()) {
-            // Liberar plazas de vuelo
+            // Liberamos plazas de vuelo
             Reserva reserva = existingReserva.get();
-            restTemplate.put(VUELO_SERVICE_URL + "/" + reserva.getIdVuelo() + "?plazasReservadas=" + (-1), null);
+            restTemplate.put(VUELO_SERVICE_URL + "/" + reserva.getIdVuelo() + "?plazasReservadas=" + -1, null);
             
             reservaDao.deleteById(id);
             return true;
         }
+        // no se puede eliminar la reserva
         return false;
     }
 

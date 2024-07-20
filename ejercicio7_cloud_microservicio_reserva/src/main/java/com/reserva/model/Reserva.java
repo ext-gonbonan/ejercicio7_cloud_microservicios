@@ -36,4 +36,7 @@ public class Reserva {
 	@NotNull(message = "El identificador del vuelo no puede estar vacío")
 	private Long idVuelo;
 
+	@NotNull(message = "El total de personas no puede estar vacío")
+	private Integer totalPersonas;
+
 }

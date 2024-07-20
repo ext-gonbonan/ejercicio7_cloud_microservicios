@@ -27,14 +27,17 @@ public class VueloServiceImpl implements VueloService {
         return vueloDao.findByPlazasDisponiblesGreaterThanEqual(plazas);
     }
 
-    @Override
     public Optional<Vuelo> updateVueloPlazas(Long idVuelo, Integer plazasReservadas) {
         Optional<Vuelo> optionalVuelo = vueloDao.findById(idVuelo);
         if (optionalVuelo.isPresent()) {
             Vuelo vuelo = optionalVuelo.get();
-            vuelo.setPlazasDisponibles(vuelo.getPlazasDisponibles() - plazasReservadas);
-            vueloDao.save(vuelo);
-            return Optional.of(vuelo);
+            if (vuelo.getPlazasDisponibles() >= plazasReservadas) {
+                vuelo.setPlazasDisponibles(vuelo.getPlazasDisponibles() - plazasReservadas);
+                vueloDao.save(vuelo);
+                return Optional.of(vuelo);
+            } else {
+                throw new ResponseStatusException(HttpStatus.CONFLICT, "No hay suficientes plazas disponibles.");
+            }
         } else {
             return Optional.empty();
         }

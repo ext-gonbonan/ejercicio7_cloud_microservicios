@@ -24,37 +24,44 @@ public class ReservaController {
 
 	@Operation(summary = "Crear una nueva reserva", description = "Añade una nueva reserva a la base de datos")
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public Reserva createReserva(@Valid @RequestBody Reserva reserva) {
+	public Reserva createReserva(
+				@Valid @RequestBody Reserva reserva) {
+		
 		return reservaService.createReserva(reserva);
-	}
-
-	@Operation(summary = "Buscar reservas por ID de hotel", description = "Busca reservas a partir del ID del hotel proporcionado en la dirección")
-	@GetMapping(value = "/hotel/{idHotel}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public List<Reserva> getReservasByHotel(@Parameter(description = "ID del hotel cuyas reservas se desean buscar") @PathVariable("idHotel") Long idHotel) {
-		return reservaService.findReservasByHotel(idHotel);
 	}
 	
 	@Operation(summary = "Buscar reservas por nombre de hotel", description = "Busca reservas a partir del nombre del hotel proporcionado en la dirección")
-    @GetMapping(value = "/hotel/nombre/{nombreHotel}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Reserva> getReservasByNombreHotel(@Parameter(description = "Nombre del hotel cuyas reservas se desean buscar") @PathVariable("nombreHotel") String nombreHotel) {
+    @GetMapping(value = "/hotel/{nombreHotel}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Reserva> getReservasByNombreHotel(
+    			@Parameter(description = "Nombre del hotel cuyas reservas se desean buscar")
+    			@PathVariable("nombreHotel") String nombreHotel) {
+		
         return reservaService.findReservasByNombreHotel(nombreHotel);
     }
-
+    
 	@Operation(summary = "Buscar reserva por ID", description = "Busca una reserva a partir del ID proporcionado en la dirección")
 	@GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public Reserva getReservaById(@Parameter(description = "ID de la reserva a buscar") @PathVariable("id") Long id) {
+	public Reserva getReservaById(
+				@Parameter(description = "ID de la reserva a buscar") 
+				@PathVariable("id") Long id) {
+		
 		return reservaService.findById(id).orElse(null);
 	}
 	
 	@Operation(summary = "Actualizar una reserva", description = "Actualiza los detalles de una reserva existente")
     @PutMapping(value = "/actualizar/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Reserva updateReserva(@Parameter(description = "ID de la reserva a actualizar") @PathVariable("id") Long id, @Valid @RequestBody Reserva reserva) {
+    public Reserva updateReserva(
+    			@Parameter(description = "ID de la reserva a actualizar") 
+    			@PathVariable("id") Long id, @Valid @RequestBody Reserva reserva) {
         return reservaService.updateReserva(id, reserva).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Reserva no encontrada con ID: " + id));
     }
 
     @Operation(summary = "Eliminar una reserva", description = "Elimina una reserva a partir del ID proporcionado")
     @DeleteMapping(value = "/eliminar/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public void deleteReserva(@Parameter(description = "ID de la reserva a eliminar") @PathVariable("id") Long id) {
+    public void deleteReserva(
+    			@Parameter(description = "ID de la reserva a eliminar") 
+    			@PathVariable("id") Long id) {
+    	
         if (!reservaService.deleteReserva(id)) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Reserva no encontrada con ID: " + id);
         }
