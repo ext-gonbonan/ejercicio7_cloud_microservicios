@@ -29,6 +29,12 @@ public class ReservaController {
 	public List<Reserva> getReservasByHotel(@Parameter(description = "ID del hotel cuyas reservas se desean buscar") @PathVariable("idHotel") Long idHotel) {
 		return reservaService.findReservasByHotel(idHotel);
 	}
+	
+	@Operation(summary = "Buscar reservas por nombre de hotel", description = "Busca reservas a partir del nombre del hotel proporcionado en la dirección")
+    @GetMapping(value = "/hotel/nombre/{nombreHotel}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Reserva> getReservasByNombreHotel(@Parameter(description = "Nombre del hotel cuyas reservas se desean buscar") @PathVariable("nombreHotel") String nombreHotel) {
+        return reservaService.findReservasByNombreHotel(nombreHotel);
+    }
 
 	@Operation(summary = "Buscar reserva por ID", description = "Busca una reserva a partir del ID proporcionado en la dirección")
 	@GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)

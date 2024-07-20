@@ -13,29 +13,26 @@ spring:
             allowedHeaders: "*"
             allowCredentials: true
       routes:
-        - id: servCursos
-          uri: lb://05-servicio-cursos
+        - id: servicioHotel
+          uri: lb://07-servicio-hotel
           predicates:
-            - Path=/scursos/**
+            - Path=/hoteles/**
           filters:
-            - RewritePath=/scursos/*, / # sustituye '/scursos/' por /
+            - RewritePath=/hoteles/(.*), /$1
 
-        - id: servFormacion
-          uri: lb://05-servicio-formacion
+        - id: servicioVuelo
+          uri: lb://07-servicio-vuelo
           predicates:
-            - Path=/sformacion/**
+            - Path=/vuelos/**
           filters:
-            - RewritePath=/sformacion/*, / # sustituye '/sformacion/' por /
+            - RewritePath=/vuelos/(.*), /$1
 
-server:
-  port: 9000
-
-eureka:
-  client:
-    register-with-eureka: false
-    service-url:
-      defaultZone: http://localhost:8761/eureka
-
+        - id: servicioReserva
+          uri: lb://07-servicio-reserva
+          predicates:
+            - Path=/reservas/**
+          filters:
+            - RewritePath=/reservas/(.*), /$1
 #aqui
 logging:
   level:

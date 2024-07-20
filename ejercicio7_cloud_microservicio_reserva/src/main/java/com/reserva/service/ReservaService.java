@@ -11,5 +11,7 @@ public interface ReservaService {
 	List<Reserva> findReservasByHotel(Long idHotel);
 
 	Optional<Reserva> findById(Long id);
+	
+	List<Reserva> findReservasByNombreHotel(String nombreHotel);
 
 }
