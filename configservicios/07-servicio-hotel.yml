@@ -19,9 +19,6 @@ eureka:
     # mejoras adicionales
     register-with-eureka: true
     fetch-registry: true
-  instance:
-    hostname: localhost
-    preferIpAddress: false  
 
 # Asiganmos un puerto de forma aleatoria
 server:
