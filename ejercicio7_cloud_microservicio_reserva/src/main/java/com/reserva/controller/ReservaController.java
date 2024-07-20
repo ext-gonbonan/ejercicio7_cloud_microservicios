@@ -4,9 +4,13 @@ import com.reserva.model.Reserva;
 import com.reserva.service.ReservaService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import jakarta.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -20,7 +24,7 @@ public class ReservaController {
 
 	@Operation(summary = "Crear una nueva reserva", description = "Añade una nueva reserva a la base de datos")
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public Reserva createReserva(@RequestBody Reserva reserva) {
+	public Reserva createReserva(@Valid @RequestBody Reserva reserva) {
 		return reservaService.createReserva(reserva);
 	}
 
@@ -41,5 +45,19 @@ public class ReservaController {
 	public Reserva getReservaById(@Parameter(description = "ID de la reserva a buscar") @PathVariable("id") Long id) {
 		return reservaService.findById(id).orElse(null);
 	}
+	
+	@Operation(summary = "Actualizar una reserva", description = "Actualiza los detalles de una reserva existente")
+    @PutMapping(value = "/actualizar/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public Reserva updateReserva(@Parameter(description = "ID de la reserva a actualizar") @PathVariable("id") Long id, @Valid @RequestBody Reserva reserva) {
+        return reservaService.updateReserva(id, reserva).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Reserva no encontrada con ID: " + id));
+    }
+
+    @Operation(summary = "Eliminar una reserva", description = "Elimina una reserva a partir del ID proporcionado")
+    @DeleteMapping(value = "/eliminar/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public void deleteReserva(@Parameter(description = "ID de la reserva a eliminar") @PathVariable("id") Long id) {
+        if (!reservaService.deleteReserva(id)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Reserva no encontrada con ID: " + id);
+        }
+    }
 
 }
