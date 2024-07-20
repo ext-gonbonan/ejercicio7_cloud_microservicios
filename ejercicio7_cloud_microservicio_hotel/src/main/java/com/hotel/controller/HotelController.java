@@ -6,9 +6,11 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -57,6 +59,20 @@ public class HotelController {
     @GetMapping(value = "/id/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Hotel getHotelById(@Parameter(description = "ID del hotel a buscar") @PathVariable("id") Long id) {
         return hotelService.findById(id).orElse(null);
+    }
+    
+    @Operation(summary = "Actualizar un hotel", description = "Actualiza los detalles de un hotel existente")
+    @PutMapping(value = "/actualizar/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public Hotel updateHotel(@Parameter(description = "ID del hotel a actualizar") @PathVariable("id") Long id, @Valid @RequestBody Hotel hotel) {
+        return hotelService.updateHotel(id, hotel).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Hotel no encontrado con ID: " + id));
+    }
+
+    @Operation(summary = "Eliminar un hotel", description = "Elimina un hotel a partir del ID proporcionado")
+    @DeleteMapping(value = "/eliminar/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public void deleteHotel(@Parameter(description = "ID del hotel a eliminar") @PathVariable("id") Long id) {
+        if (!hotelService.deleteHotel(id)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Hotel no encontrado con ID: " + id);
+        }
     }
 	
 }

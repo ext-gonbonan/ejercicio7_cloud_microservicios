@@ -44,4 +44,27 @@ public class HotelServiceImpl implements HotelService {
 		return hotelDao.findById(id);
 	}
 
+	@Override
+    public Optional<Hotel> updateHotel(Long id, Hotel updatedHotel) {
+        Optional<Hotel> existingHotel = hotelDao.findById(id);
+        if (existingHotel.isPresent()) {
+            Hotel hotel = existingHotel.get();
+            hotel.setNombre(updatedHotel.getNombre());
+            hotel.setCategoria(updatedHotel.getCategoria());
+            hotel.setPrecio(updatedHotel.getPrecio());
+            hotel.setDisponible(updatedHotel.getDisponible());
+            return Optional.of(hotelDao.save(hotel));
+        }
+        return Optional.empty();
+    }
+
+    @Override
+    public boolean deleteHotel(Long id) {
+        if (hotelDao.existsById(id)) {
+            hotelDao.deleteById(id);
+            return true;
+        }
+        return false;
+    }
+
 }

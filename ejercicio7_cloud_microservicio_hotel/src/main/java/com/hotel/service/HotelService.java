@@ -15,4 +15,8 @@ public interface HotelService {
 	
 	Optional<Hotel> findById(Long id);
 	
+	Optional<Hotel> updateHotel(Long id, Hotel updatedHotel);
+	
+	boolean deleteHotel(Long id);
+	
 }
