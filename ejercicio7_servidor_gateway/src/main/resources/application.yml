@@ -18,21 +18,21 @@ spring:
           predicates:
             - Path=/shoteles/**
           filters:
-            - RewritePath=/shoteles/, /hoteles/
+            - RewritePath=/shoteles/(?<segment>.*), /hoteles/${segment}
 
         - id: servicioVuelo
           uri: lb://07-servicio-vuelo
           predicates:
-            - Path=/svuelos/, /vuelos/
+            - Path=/svuelos/**
           filters:
-            - RewritePath=/vuelos/(.*), /$1
+            - RewritePath=/svuelos/(?<segment>.*), /vuelos/${segment}
 
         - id: servicioReserva
           uri: lb://07-servicio-reserva
           predicates:
             - Path=/sreservas/**
           filters:
-            - RewritePath=/sreservas/, /reservas/
+            - RewritePath=/sreservas/(?<segment>.*), /reservas/${segment}
 
 server:
   port: 9000

@@ -26,8 +26,17 @@ public class HotelServiceImpl implements HotelService {
 	}
 
 	@Override
-	public Hotel saveHotel(Hotel hotel) {
-		return hotelDao.save(hotel);
+	public Optional<Hotel> saveHotel(Hotel hotel) {
+		// Verifica si ya existe un hotel con el mismo nombre
+        Optional<Hotel> existingHotel = hotelDao.findByNombre(hotel.getNombre());
+        
+        if (existingHotel.isPresent()) {
+            // Si ya existe un hotel con ese nombre, devuelve un Optional vacío
+            return Optional.empty();
+        }
+                
+        // Si no existe, guarda el nuevo hotel y devuelve un Optional con el hotel guardado
+        return Optional.of(hotelDao.save(hotel));
 	}
 
 	@Override

@@ -1,6 +1,7 @@
 package com.hotel.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -11,12 +12,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
+import org.springframework.http.HttpStatus;
 
 import com.hotel.model.Hotel;
 import com.hotel.service.HotelService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import jakarta.validation.Valid;
 
 @CrossOrigin(origins = "*")  // Permitimos solicitudes desde cualquier origen
 @RestController
@@ -39,9 +43,14 @@ public class HotelController {
     }
 
     @Operation(summary = "Crear un nuevo hotel", description = "Añade un nuevo hotel a la base de datos")
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Hotel createHotel(@RequestBody Hotel hotel) {
-        return hotelService.saveHotel(hotel);
+    @PostMapping(value = "/crear", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public Hotel createHotel(@Valid @RequestBody Hotel hotel) {
+    	Optional<Hotel> savedHotel = hotelService.saveHotel(hotel);
+        if (savedHotel.isPresent()) {
+            return savedHotel.get();
+        } else {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "No se pudo crear el hotel. Ya existe un hotel con el nombre: " + hotel.getNombre());
+        }
     }
 
     @Operation(summary = "Buscar hotel por ID", description = "Busca un hotel a partir del ID proporcionado en la dirección")

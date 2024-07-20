@@ -11,8 +11,8 @@ public interface HotelService {
 
 	Optional<Hotel> findByName(String name);
 
-	Hotel saveHotel(Hotel hotel);
-
+	Optional<Hotel> saveHotel(Hotel hotel);
+	
 	Optional<Hotel> findById(Long id);
 	
 }
