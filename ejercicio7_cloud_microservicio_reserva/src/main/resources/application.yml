@@ -1,6 +1,9 @@
 spring:
   application:
     name: 07-servicio-reserva
+  main:
+    lazy-initialization: true # Habilita la inicialización lazy de beans de Spring (mejora la rapidez al iniciar el microservicio)
+
   #cloud:
     #config:
       #uri: http://localhost:8888  # Localización Spring Cloud Config

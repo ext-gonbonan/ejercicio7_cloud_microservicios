@@ -18,4 +18,4 @@ eureka:
     #prefer-ip-address: false
   server:
     eviction-interval-timer-in-ms: 6000  # Intervalo de tiempo en milisegundos para verificar la caducidad de las instancias
-    response-cache-update-interval-ms: 1000
+    response-cache-update-interval-ms: 1000 # Intervalo de actualización de la caché de respuestas de Eureka en milisegundos
