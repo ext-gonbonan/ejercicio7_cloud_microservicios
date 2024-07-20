@@ -3,7 +3,6 @@ package com.reserva.controller;
 import com.reserva.model.Reserva;
 import com.reserva.service.ReservaService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.Parameter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -11,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin(origins = "*")  // Permitimos solicitudes desde cualquier origen
 @RestController
 @RequestMapping("/reservas")
 public class ReservaController {

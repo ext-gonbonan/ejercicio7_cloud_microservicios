@@ -44,5 +44,33 @@ public class ReservaServiceImpl implements ReservaService {
 		Long idHotel = restTemplate.getForObject(HOTEL_SERVICE_URL + "/" + nombreHotel, Long.class);
 		return reservaDao.findByIdHotel(idHotel);
 	}
+	
+	@Override
+    public Optional<Reserva> updateReserva(Long id, Reserva updatedReserva) {
+        Optional<Reserva> existingReserva = reservaDao.findById(id);
+        if (existingReserva.isPresent()) {
+            Reserva reserva = existingReserva.get();
+            reserva.setNombreCliente(updatedReserva.getNombreCliente());
+            reserva.setDni(updatedReserva.getDni());
+            reserva.setIdHotel(updatedReserva.getIdHotel());
+            reserva.setIdVuelo(updatedReserva.getIdVuelo());
+            return Optional.of(reservaDao.save(reserva));
+        }
+        return Optional.empty();
+    }
+
+    @Override
+    public boolean deleteReserva(Long id) {
+    	Optional<Reserva> existingReserva = reservaDao.findById(id);
+        if (existingReserva.isPresent()) {
+            // Liberar plazas de vuelo
+            Reserva reserva = existingReserva.get();
+            restTemplate.put(VUELO_SERVICE_URL + "/" + reserva.getIdVuelo() + "?plazasReservadas=" + (-1), null);
+            
+            reservaDao.deleteById(id);
+            return true;
+        }
+        return false;
+    }
 
 }

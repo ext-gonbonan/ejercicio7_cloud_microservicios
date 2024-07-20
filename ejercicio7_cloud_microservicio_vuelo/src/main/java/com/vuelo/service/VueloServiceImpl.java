@@ -41,4 +41,27 @@ public class VueloServiceImpl implements VueloService {
         return vueloDao.findById(id);
     }
     
+    @Override
+    public Optional<Vuelo> updateVuelo(Long id, Vuelo updatedVuelo) {
+        Optional<Vuelo> existingVuelo = vueloDao.findById(id);
+        if (existingVuelo.isPresent()) {
+            Vuelo vuelo = existingVuelo.get();
+            vuelo.setCompania(updatedVuelo.getCompania());
+            vuelo.setFechaVuelo(updatedVuelo.getFechaVuelo());
+            vuelo.setPrecio(updatedVuelo.getPrecio());
+            vuelo.setPlazasDisponibles(updatedVuelo.getPlazasDisponibles());
+            return Optional.of(vueloDao.save(vuelo));
+        }
+        return Optional.empty();
+    }
+
+    @Override
+    public boolean deleteVuelo(Long id) {
+        if (vueloDao.existsById(id)) {
+            vueloDao.deleteById(id);
+            return true;
+        }
+        return false;
+    }
+    
 }

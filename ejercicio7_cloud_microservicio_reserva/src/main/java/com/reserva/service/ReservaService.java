@@ -13,5 +13,9 @@ public interface ReservaService {
 	Optional<Reserva> findById(Long id);
 	
 	List<Reserva> findReservasByNombreHotel(String nombreHotel);
+	
+	Optional<Reserva> updateReserva(Long id, Reserva updatedReserva);
+	
+	boolean deleteReserva(Long id);
 
 }

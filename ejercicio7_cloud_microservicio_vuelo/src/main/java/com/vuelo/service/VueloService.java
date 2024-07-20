@@ -13,5 +13,9 @@ public interface VueloService {
 	Vuelo saveVuelo(Vuelo vuelo);
 
 	Optional<Vuelo> findById(Long id);
+	
+	Optional<Vuelo> updateVuelo(Long id, Vuelo updatedVuelo);
+	
+	boolean deleteVuelo(Long id);
 
 }
