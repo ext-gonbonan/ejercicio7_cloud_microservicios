@@ -19,6 +19,10 @@ eureka:
     # mejoras adicionales
     register-with-eureka: true
     fetch-registry: true
+    registry-fetch-interval-seconds: 5 # determina con qué frecuencia el cliente obtiene el registro actualizado de Eureka
+  instance:
+    lease-renewal-interval-in-seconds: 5 # determina con qué frecuencia el cliente envía latidos a Eureka
+    lease-expiration-duration-in-seconds: 20 # determina cuánto tiempo debe pasar sin recibir un latido para que Eureka considere que la instancia ha expirado
 
 # Asiganmos un puerto de forma aleatoria
 server:
