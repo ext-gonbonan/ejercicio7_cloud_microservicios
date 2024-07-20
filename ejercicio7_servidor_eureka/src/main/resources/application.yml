@@ -16,3 +16,5 @@ eureka:
   instance:
     instance-id: ${spring.application.name}:${random.value}
     #prefer-ip-address: false
+  server:
+    eviction-interval-timer-in-ms: 6000  # Intervalo de tiempo en milisegundos para verificar la caducidad de las instancias

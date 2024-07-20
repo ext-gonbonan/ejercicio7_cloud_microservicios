@@ -16,24 +16,27 @@ spring:
         - id: servicioHotel
           uri: lb://07-servicio-hotel
           predicates:
-            - Path=/hoteles/**
+            - Path=/shoteles/**
           filters:
-            - RewritePath=/hoteles/(.*), /$1
+            - RewritePath=/shoteles/, /hoteles/
 
         - id: servicioVuelo
           uri: lb://07-servicio-vuelo
           predicates:
-            - Path=/vuelos/**
+            - Path=/svuelos/, /vuelos/
           filters:
             - RewritePath=/vuelos/(.*), /$1
 
         - id: servicioReserva
           uri: lb://07-servicio-reserva
           predicates:
-            - Path=/reservas/**
+            - Path=/sreservas/**
           filters:
-            - RewritePath=/reservas/(.*), /$1
-#aqui
+            - RewritePath=/sreservas/, /reservas/
+
+server:
+  port: 9000
+
 logging:
   level:
     root: INFO
