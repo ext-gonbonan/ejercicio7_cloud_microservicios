@@ -37,7 +37,7 @@ public class ReservaController {
     }
     
 	@Operation(summary = "Buscar reserva por ID", description = "Busca una reserva a partir del ID proporcionado en la dirección")
-	@GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = "/id/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public Reserva getReservaById(
 				@Parameter(description = "ID de la reserva a buscar") 
 				@PathVariable("id") Long id) {
@@ -61,6 +61,14 @@ public class ReservaController {
     			@PathVariable("id") Long id) {
     	
         reservaService.deleteReserva(id);
+    }
+    
+    @Operation(summary = "Verificar si existen reservas activas para un vuelo", description = "Verifica si existen reservas activas asociadas a un vuelo dado su ID")
+    @GetMapping(value = "/existeReservaPorVuelo/{idVuelo}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public boolean existeReservaPorVuelo(
+    			@Parameter(description = "ID del vuelo a verificar") @PathVariable("idVuelo") Long idVuelo) {
+    	
+        return reservaService.existeReservaPorVuelo(idVuelo);
     }
     
 }

@@ -16,5 +16,7 @@ public interface ReservaService {
 	Reserva updateReserva(Long id, Reserva updatedReserva);
 	
 	boolean deleteReserva(Long id);
+	
+	boolean existeReservaPorVuelo(Long idVuelo);
 
 }

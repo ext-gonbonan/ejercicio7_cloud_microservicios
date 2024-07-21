@@ -21,8 +21,8 @@ public class ReservaServiceImpl implements ReservaService {
 	@Autowired
 	private RestTemplate restTemplate;
 
-	private static final String VUELO_SERVICE_URL = "http://vuelo-service/vuelos";
-	private static final String HOTEL_SERVICE_URL = "http://hotel-service/hoteles";
+	private static final String VUELO_SERVICE_URL = "http://07-servicio-vuelo/vuelos";
+	private static final String HOTEL_SERVICE_URL = "http://07-servicio-hotel/hoteles";
 
 	@Override
 	public Reserva createReserva(Reserva reserva) {
@@ -100,6 +100,12 @@ public class ReservaServiceImpl implements ReservaService {
 	    } else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Reserva no encontrada con ID: " + id);
 	    }
+	}
+
+	@Override
+	public boolean existeReservaPorVuelo(Long idVuelo) {
+		List<Reserva> reservas = reservaDao.findByIdVuelo(idVuelo);
+	    return !reservas.isEmpty();
 	}
 
 }

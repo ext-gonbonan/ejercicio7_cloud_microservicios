@@ -54,7 +54,7 @@ public class VueloController {
     }
 
     @Operation(summary = "Buscar vuelo por ID", description = "Busca un vuelo a partir del ID proporcionado en la dirección")
-    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/id/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Vuelo getVueloById(
     			@Parameter(description = "ID del vuelo a buscar") @PathVariable("id") Long id) {
     	

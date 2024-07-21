@@ -20,7 +20,7 @@ public class VueloServiceImpl implements VueloService {
     @Autowired
     private RestTemplate restTemplate;
 
-    private static final String RESERVA_SERVICE_URL = "http://reserva-service/reservas/vuelo";
+    private static final String RESERVA_SERVICE_URL = "http://07-servicio-reserva/reservas";
 
     @Override
     public List<Vuelo> findAllAvailable(Integer plazas) {
@@ -73,17 +73,16 @@ public class VueloServiceImpl implements VueloService {
     @Override
     public boolean deleteVuelo(Long id) {
         if (vueloDao.existsById(id)) {
-            // Verificar si hay reservas activas para el vuelo
-            Boolean reservasActivas = restTemplate.getForObject(RESERVA_SERVICE_URL + "/" + id, Boolean.class);
-            if (reservasActivas != null && reservasActivas) {
-                throw new ResponseStatusException(HttpStatus.CONFLICT, "No se puede eliminar el vuelo porque tiene reservas activas.");
-            }
-            // si se puede eliminar el vuelo al no tener reservas activas
-            vueloDao.deleteById(id);
-            return true;
-        } else {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Vuelo no encontrado con ID: " + id);
-        }
+            // Verificar si hay reservas activas para el ID vuelo
+        	 Boolean reservasActivas = restTemplate.getForObject(RESERVA_SERVICE_URL + "/existeReservaPorVuelo/" + id, Boolean.class);
+             if (reservasActivas != null && reservasActivas) {
+                 throw new ResponseStatusException(HttpStatus.CONFLICT, "No se puede eliminar el vuelo porque tiene reservas activas.");
+             }
+             // Si no hay reservas activas, eliminar el vuelo
+             vueloDao.deleteById(id);
+             return true;
+         }
+         throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Vuelo no encontrado con ID: " + id);
     }
     
 }
