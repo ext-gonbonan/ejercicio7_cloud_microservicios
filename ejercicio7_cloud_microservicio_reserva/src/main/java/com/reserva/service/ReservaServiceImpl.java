@@ -1,11 +1,13 @@
 package com.reserva.service;
 
 import com.reserva.dao.ReservaDao;
+import com.reserva.exception.ReservaCreationException;
+import com.reserva.exception.VueloNotFoundException;
 import com.reserva.model.Reserva;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestClientException;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -24,6 +26,7 @@ public class ReservaServiceImpl implements ReservaService {
 	private static final String VUELO_SERVICE_URL = "http://07-servicio-vuelo/vuelos";
 	private static final String HOTEL_SERVICE_URL = "http://07-servicio-hotel/hoteles";
 
+	/*
 	@Override
 	public Reserva createReserva(Reserva reserva) {
 		try {
@@ -38,6 +41,23 @@ public class ReservaServiceImpl implements ReservaService {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "No se pudo actualizar las plazas del vuelo: " + e.getMessage());
 		}
 	}
+	*/
+	
+	@Override
+    public Reserva createReserva(Reserva reserva) {
+        try {
+            // Intenta actualizar plazas de vuelo
+            restTemplate.put(VUELO_SERVICE_URL + "/" + reserva.getIdVuelo() + "/" + reserva.getTotalPersonas(), null);
+            return reservaDao.save(reserva);
+        } catch (HttpClientErrorException e) {
+            if (e.getStatusCode() == HttpStatus.NOT_FOUND) {
+                throw new VueloNotFoundException("Vuelo no encontrado con ID: " + reserva.getIdVuelo());
+            }
+            throw new ReservaCreationException("Error al crear la reserva");
+        } catch (Exception e) {
+            throw new ReservaCreationException("Error inesperado al crear la reserva");
+        }
+    }
 
 	@Override
 	public List<Reserva> findReservasByIdHotel(Long idHotel) {
