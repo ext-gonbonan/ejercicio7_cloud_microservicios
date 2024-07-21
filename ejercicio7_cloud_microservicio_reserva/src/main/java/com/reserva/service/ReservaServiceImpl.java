@@ -41,13 +41,14 @@ public class ReservaServiceImpl implements ReservaService {
 
 	@Override
 	public List<Reserva> findReservasByHotel(Long idHotel) {
-		
 		return reservaDao.findByIdHotel(idHotel);
 	}
 
 	@Override
 	public Optional<Reserva> findById(Long id) {
-		return reservaDao.findById(id);
+		 return Optional.of(reservaDao.findById(id).orElseThrow(
+				 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Reserva no encontrada con ID: " + id))
+				 );
 	}
 
 	@Override
@@ -67,13 +68,13 @@ public class ReservaServiceImpl implements ReservaService {
             reserva.setDni(updatedReserva.getDni());
             reserva.setIdHotel(updatedReserva.getIdHotel());
             reserva.setIdVuelo(updatedReserva.getIdVuelo());
-            
             return Optional.of(reservaDao.save(reserva));
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Reserva no encontrada con ID: " + id);
         }
-        return Optional.empty();
     }
 
-	// No es recomendado usar @Transactional en los microservicios
+	// No es recomendado usar @Transactional en los microservicios por lo que aplico otra lógica
 	public boolean deleteReserva(Long id) {
 	    Optional<Reserva> existingReserva = reservaDao.findById(id);
 	    if (existingReserva.isPresent()) {
@@ -91,14 +92,15 @@ public class ReservaServiceImpl implements ReservaService {
 	                // y enviamos excepcion con el error
 	                throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "No se pudieron liberar las plazas del vuelo. La reserva no se eliminó.");
 	            }
-	            
 	            return true;
 	            
 	        } catch (Exception e) {
 	            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error al eliminar la reserva: " + e.getMessage());
 	        }
+	        
+	    } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Reserva no encontrada con ID: " + id);
 	    }
-	    return false;
 	}
 
 }
