@@ -19,12 +19,25 @@ eureka:
     # mejoras adicionales
     register-with-eureka: true
     fetch-registry: true
+    registry-fetch-interval-seconds: 5 # determina con qué frecuencia el cliente obtiene el registro actualizado de Eureka
+  instance:
+    lease-renewal-interval-in-seconds: 5 # determina con qué frecuencia el cliente envía latidos a Eureka
+    lease-expiration-duration-in-seconds: 20 # determina cuánto tiempo debe pasar sin recibir un latido para que Eureka considere que la instancia ha expirado
 
 # Asiganmos un puerto de forma aleatoria
 server:
   port: 0
 
 # Configuración Spring Doc
+openapi:
+  service:
+    title: 07-servicio-hotel doc
+    version: 1.0.0
+    url: http://localhost:9000 #api gateway url
 springdoc:
   packages-to-scan: com.hotel.controller
   paths-to-match: /**
+  api-docs:
+    path: /hoteles/v3/api-docs
+  swagger-ui:
+    path: /hoteles/swagger-ui.html
