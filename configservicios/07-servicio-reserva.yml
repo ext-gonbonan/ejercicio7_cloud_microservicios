@@ -28,6 +28,15 @@ server:
   port: 0
 
 # Configuración Spring Doc
+openapi:
+  service:
+    title: 07-servicio-hotel doc
+    version: 1.0.0
+    url: http://localhost:9000 #api gateway url
 springdoc:
   packages-to-scan: com.reserva.controller
   paths-to-match: /**
+  api-docs:
+    path: /reservas/v3/api-docs
+  swagger-ui:
+    path: /reservas/swagger-ui.html
