@@ -1,7 +1,6 @@
 package com.reserva.service;
 
 import com.reserva.dao.ReservaDao;
-import com.reserva.exception.PlazasInsuficientesException;
 import com.reserva.exception.ReservaCreationException;
 import com.reserva.exception.VueloNotFoundException;
 import com.reserva.model.Reserva;
@@ -45,22 +44,20 @@ public class ReservaServiceImpl implements ReservaService {
 	*/
 	
 	@Override
-	public Reserva createReserva(Reserva reserva) {
-	    try {
-	        // Intenta actualizar plazas de vuelo
-	        restTemplate.put(VUELO_SERVICE_URL + "/" + reserva.getIdVuelo() + "/" + reserva.getTotalPersonas(), null);
-	        return reservaDao.save(reserva);
-	    } catch (HttpClientErrorException e) {
-	        if (e.getStatusCode() == HttpStatus.NOT_FOUND) {
-	            throw new VueloNotFoundException("Vuelo no encontrado con ID: " + reserva.getIdVuelo());
-	        } else if (e.getStatusCode() == HttpStatus.CONFLICT) {
-	            throw new PlazasInsuficientesException("No hay suficientes plazas disponibles para el vuelo con ID: " + reserva.getIdVuelo());
-	        }
-	        throw new ReservaCreationException("Error al crear la reserva: " + e.getMessage());
-	    } catch (Exception e) {
-	        throw new ReservaCreationException("Error inesperado al crear la reserva: " + e.getMessage());
-	    }
-	}
+    public Reserva createReserva(Reserva reserva) {
+        try {
+            // Intenta actualizar plazas de vuelo
+            restTemplate.put(VUELO_SERVICE_URL + "/" + reserva.getIdVuelo() + "/" + reserva.getTotalPersonas(), null);
+            return reservaDao.save(reserva);
+        } catch (HttpClientErrorException e) {
+            if (e.getStatusCode() == HttpStatus.NOT_FOUND) {
+                throw new VueloNotFoundException("Vuelo no encontrado con ID: " + reserva.getIdVuelo());
+            }
+            throw new ReservaCreationException("Error al crear la reserva");
+        } catch (Exception e) {
+            throw new ReservaCreationException("Error inesperado al crear la reserva");
+        }
+    }
 
 	@Override
 	public List<Reserva> findReservasByIdHotel(Long idHotel) {
