@@ -11,16 +11,24 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
-@CrossOrigin(origins = "*")  // Permitimos solicitudes desde cualquier origen
+//@CrossOrigin(origins = "*")  // Permitimos solicitudes desde cualquier origen
 @RestController
 @RequestMapping("/reservas")
 public class ReservaController {
+	
+	// *********************************************************************************************************
+	// IMPORTANTE!!!! PARA EVITAR ERRORES AL HACER LLAMADAS DESDE POSTMAN O SIMILAR
+	//
+	// Especificar rutas específicas como "/crear", esto elimina la ambigüedad y asegura que las solicitudes POST
+	// sean manejadas correctamente por el método correspondiente en el controlador
+	//
+	// *********************************************************************************************************
 
 	@Autowired
 	private ReservaService reservaService;
 
 	@Operation(summary = "Crear una nueva reserva", description = "Añade una nueva reserva a la base de datos")
-	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(value = "/crear", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public Reserva createReserva(
 				@Valid @RequestBody Reserva reserva) {
 		

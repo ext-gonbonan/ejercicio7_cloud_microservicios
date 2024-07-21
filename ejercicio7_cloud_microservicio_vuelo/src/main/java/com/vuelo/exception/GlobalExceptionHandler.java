@@ -15,10 +15,18 @@ public class GlobalExceptionHandler {
 	ErrorResponse errorResponse = new ErrorResponse(
             ex.getStatusCode().value(),
             ex.getReason(),
-            ex.getLocalizedMessage(),
+            simplifyMessage(ex.getMessage()),
             request.getRequestURI() // Obtiene la URI de la solicitud actual
         );
         return new ResponseEntity<>(errorResponse, ex.getStatusCode());
+    }
+	
+	private String simplifyMessage(String message) {
+        // Lógica para simplificar el mensaje de error
+        if (message.contains(":")) {
+            return message.split(":")[0] + ": " + message.split(":")[1];
+        }
+        return message;
     }
 
 }
