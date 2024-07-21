@@ -65,7 +65,6 @@ server:
   port: 9000
 
 
-
 logging:
   level:
     root: INFO
