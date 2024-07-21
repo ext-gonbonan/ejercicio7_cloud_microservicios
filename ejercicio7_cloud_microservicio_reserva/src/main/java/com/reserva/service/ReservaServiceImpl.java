@@ -1,13 +1,14 @@
 package com.reserva.service;
 
 import com.reserva.dao.ReservaDao;
+import com.reserva.exception.PlazasInsuficientesException;
 import com.reserva.exception.ReservaCreationException;
 import com.reserva.exception.VueloNotFoundException;
 import com.reserva.model.Reserva;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -26,7 +27,7 @@ public class ReservaServiceImpl implements ReservaService {
 	private static final String VUELO_SERVICE_URL = "http://07-servicio-vuelo/vuelos";
 	private static final String HOTEL_SERVICE_URL = "http://07-servicio-hotel/hoteles";
 
-	/*
+	
 	@Override
 	public Reserva createReserva(Reserva reserva) {
 		try {
@@ -35,14 +36,23 @@ public class ReservaServiceImpl implements ReservaService {
 		        
 			// Si no se lanzó ninguna excepción, la actualización fue exitosa
 			return reservaDao.save(reserva);
-			
+		
+		} catch (PlazasInsuficientesException e) {
+			throw new PlazasInsuficientesException("No hay plazas suficientes para ese vuelo ");
+		
+		} catch (VueloNotFoundException e) {
+			throw new VueloNotFoundException("No existe datos de ese vuelo ");
+		
+		} catch (ReservaCreationException e) {
+			throw new ReservaCreationException("Error al realizar la reserva ");
+					
 		} catch (RestClientException e) {
 			// La actualización del vuelo falló
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "No se pudo actualizar las plazas del vuelo: " + e.getMessage());
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "No se pudo actualizar las plazas del vuelo ");
 		}
 	}
-	*/
 	
+	/*
 	@Override
     public Reserva createReserva(Reserva reserva) {
         try {
@@ -58,6 +68,7 @@ public class ReservaServiceImpl implements ReservaService {
             throw new ReservaCreationException("Error inesperado al crear la reserva");
         }
     }
+    */
 
 	@Override
 	public List<Reserva> findReservasByIdHotel(Long idHotel) {

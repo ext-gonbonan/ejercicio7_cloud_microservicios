@@ -8,6 +8,7 @@ import jakarta.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -35,6 +36,7 @@ public class ReservaController {
 		return reservaService.createReserva(reserva);
 	}
 	
+	@PreAuthorize("hasRole('ADMIN')")
 	@Operation(summary = "Buscar reservas por nombre de hotel", description = "Busca reservas a partir del nombre del hotel proporcionado en la dirección")
     @GetMapping(value = "/hotel/{nombreHotel}", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Reserva> getReservasByNombreHotel(
