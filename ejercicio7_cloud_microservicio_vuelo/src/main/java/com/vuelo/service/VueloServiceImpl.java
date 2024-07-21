@@ -49,8 +49,10 @@ public class VueloServiceImpl implements VueloService {
     }
 
     @Override
-    public Optional<Vuelo> findById(Long id) {
-        return vueloDao.findById(id);
+    public Vuelo findById(Long id) {
+        return vueloDao.findById(id).orElseThrow(
+        		()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "Vuelo no encontrado con ID: " + id)
+        		);
     }
     
     @Override
@@ -63,8 +65,9 @@ public class VueloServiceImpl implements VueloService {
             vuelo.setPrecio(updatedVuelo.getPrecio());
             vuelo.setPlazasDisponibles(updatedVuelo.getPlazasDisponibles());
             return Optional.of(vueloDao.save(vuelo));
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Vuelo no encontrado con ID: " + id);
         }
-        return Optional.empty();
     }
 
     @Override
@@ -78,9 +81,9 @@ public class VueloServiceImpl implements VueloService {
             // si se puede eliminar el vuelo al no tener reservas activas
             vueloDao.deleteById(id);
             return true;
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Vuelo no encontrado con ID: " + id);
         }
-        // no se puede eliminar el vuelo al tener reservas activas
-        return false;
     }
     
 }
