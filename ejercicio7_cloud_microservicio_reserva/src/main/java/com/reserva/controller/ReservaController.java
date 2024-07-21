@@ -11,7 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
-//@CrossOrigin(origins = "*")  // Permitimos solicitudes desde cualquier origen
+@CrossOrigin(origins = "*")  // Permitimos solicitudes desde cualquier origen
 @RestController
 @RequestMapping("/reservas")
 public class ReservaController {
