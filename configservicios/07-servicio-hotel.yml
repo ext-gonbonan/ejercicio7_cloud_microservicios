@@ -38,6 +38,6 @@ springdoc:
   packages-to-scan: com.hotel.controller
   paths-to-match: /**
   api-docs:
-    path: /v3/api-docs
+    path: /hoteles/v3/api-docs
   swagger-ui:
-    path: /swagger-ui.html
+    path: /hoteles/swagger-ui.html
