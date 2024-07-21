@@ -39,7 +39,7 @@ public class VueloServiceImpl implements VueloService {
                 throw new ResponseStatusException(HttpStatus.CONFLICT, "No hay suficientes plazas disponibles.");
             }
         } else {
-            return Optional.empty();
+        	throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Vuelo no encontrado con ID: " + idVuelo);
         }
     }
 
