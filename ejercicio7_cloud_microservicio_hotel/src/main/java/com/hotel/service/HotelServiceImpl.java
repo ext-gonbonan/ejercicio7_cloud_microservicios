@@ -4,7 +4,9 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.hotel.dao.HotelDao;
 import com.hotel.model.Hotel;
@@ -22,7 +24,9 @@ public class HotelServiceImpl implements HotelService {
 
 	@Override
 	public Optional<Hotel> findByName(String name) {
-		return hotelDao.findByNombre(name);
+		return Optional.of(hotelDao.findByNombre(name).orElseThrow(
+				() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Hotel no encontrado con nombre: " + name))
+				);
 	}
 
 	@Override
@@ -31,8 +35,8 @@ public class HotelServiceImpl implements HotelService {
         Optional<Hotel> existingHotel = hotelDao.findByNombre(hotel.getNombre());
         
         if (existingHotel.isPresent()) {
-            // Si ya existe un hotel con ese nombre, devuelve un Optional vacío
-            return Optional.empty();
+            // Si ya existe un hotel con ese nombre, devuelve una excepction
+        	throw new ResponseStatusException(HttpStatus.CONFLICT, "Hotel ya existe con nombre: " + hotel.getNombre());
         }
                 
         // Si no existe, guarda el nuevo hotel y devuelve un Optional con el hotel guardado
@@ -41,7 +45,9 @@ public class HotelServiceImpl implements HotelService {
 
 	@Override
 	public Optional<Hotel> findById(Long id) {
-		return hotelDao.findById(id);
+		   return Optional.of(hotelDao.findById(id).orElseThrow(
+				   () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Hotel no encontrado con ID: " + id))
+				   );
 	}
 
 	@Override
@@ -54,8 +60,9 @@ public class HotelServiceImpl implements HotelService {
             hotel.setPrecio(updatedHotel.getPrecio());
             hotel.setDisponible(updatedHotel.getDisponible());
             return Optional.of(hotelDao.save(hotel));
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Hotel no encontrado con ID: " + id);
         }
-        return Optional.empty();
     }
 
     @Override
@@ -63,8 +70,9 @@ public class HotelServiceImpl implements HotelService {
         if (hotelDao.existsById(id)) {
             hotelDao.deleteById(id);
             return true;
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Hotel no encontrado con ID: " + id);
         }
-        return false;
     }
 
 }

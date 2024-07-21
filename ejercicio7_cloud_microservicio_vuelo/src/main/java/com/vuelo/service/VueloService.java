@@ -12,7 +12,7 @@ public interface VueloService {
 
 	Vuelo saveVuelo(Vuelo vuelo);
 
-	Vuelo findById(Long id);
+	Optional<Vuelo> findById(Long id);
 	
 	Optional<Vuelo> updateVuelo(Long id, Vuelo updatedVuelo);
 	

@@ -63,7 +63,7 @@ public class VueloController {
     			@Parameter(description = "ID del vuelo a buscar") 
     			@PathVariable("id") Long id) {
     	
-        return vueloService.findById(id);
+        return vueloService.findById(id).orElse(null);
     }
     
     @Operation(summary = "Actualizar un vuelo", description = "Actualiza los detalles de un vuelo existente")

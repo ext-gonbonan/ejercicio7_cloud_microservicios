@@ -49,9 +49,9 @@ public class VueloServiceImpl implements VueloService {
     }
 
     @Override
-    public Vuelo findById(Long id) {
-        return vueloDao.findById(id).orElseThrow(
-        		()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "Vuelo no encontrado con ID: " + id)
+    public Optional<Vuelo> findById(Long id) {
+        return Optional.of(vueloDao.findById(id).orElseThrow(
+        		()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "Vuelo no encontrado con ID: " + id))
         		);
     }
     
