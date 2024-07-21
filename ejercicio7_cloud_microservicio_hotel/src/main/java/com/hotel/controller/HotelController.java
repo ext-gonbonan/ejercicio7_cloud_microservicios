@@ -30,6 +30,7 @@ public class HotelController {
     @Operation(summary = "Obtener todos los hoteles disponibles", description = "Devuelve la lista de todos los hoteles disponibles")
     @GetMapping(value = "/disponibles", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Hotel> getHotelesDisponibles() {
+    	
         return hotelService.findAllAvailable();
     }
 
