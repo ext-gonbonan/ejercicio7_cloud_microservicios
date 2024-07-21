@@ -41,7 +41,6 @@ spring:
         #    - Path=/shoteles/v3/api-docs/**, /shoteles/swagger-ui/**, /shoteles/swagger-ui.html
           #filters:
           #  - RewritePath=/swagger-hotel/(?<segment>.*), /$\\{segment}
-
   main:
     web-application-type: reactive
 
@@ -57,6 +56,10 @@ springdoc:
         name: API Gateway Service
       - url: /shoteles/v3/api-docs
         name: Hotel Service
+      - url: /svuelos/v3/api-docs
+        name: Vuelo Service
+      - url: /sreservas/v3/api-docs
+        name: Reserva Service
 
 server:
   port: 9000
@@ -66,21 +69,21 @@ server:
 logging:
   level:
     root: INFO
-    '[org.springframework.cloud.gateway]': TRACE
+    #'[org.springframework.cloud.gateway]': TRACE
     #'[org.springframework.cloud.gateway.filter.LoadBalancerClientFilter]': TRACE
     #'[org.springframework.cloud.gateway.route.RouteDefinitionRouteLocator]': INFO
     #'[org.springframework.cloud.gateway.handler.RoutePredicateHandlerMapping]': DEBUG
     #'[org.springframework.cloud.gateway.filter.GlobalFilter]': TRACE
     #'[com.netflix.discovery]': DEBUG
     #'[com.netflix.eureka]': DEBUG
-    '[org.springframework.cloud.gateway.filter.NettyRoutingFilter]': TRACE
+    #'[org.springframework.cloud.gateway.filter.NettyRoutingFilter]': TRACE
     #'[org.springframework.web.cors]': TRACE
     #'[org.springframework.http.server.reactive]': TRACE
     #'[org.springframework.web.reactive]': TRACE
     #'[reactor.netty]': DEBUG
     #'[redisratelimiter]': DEBUG
-    '[org.springframework.web]': TRACE
-    '[org.springframework.http]': TRACE
+    #'[org.springframework.web]': TRACE
+    #'[org.springframework.http]': TRACE
 
 
   #pattern:
