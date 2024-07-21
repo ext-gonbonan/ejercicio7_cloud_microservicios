@@ -40,7 +40,7 @@ public class ReservaServiceImpl implements ReservaService {
 	}
 
 	@Override
-	public List<Reserva> findReservasByHotel(Long idHotel) {
+	public List<Reserva> findReservasByIdHotel(Long idHotel) {
 		return reservaDao.findByIdHotel(idHotel);
 	}
 

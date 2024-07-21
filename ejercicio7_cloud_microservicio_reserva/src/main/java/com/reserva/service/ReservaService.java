@@ -7,7 +7,7 @@ public interface ReservaService {
 
 	Reserva createReserva(Reserva reserva);
 
-	List<Reserva> findReservasByHotel(Long idHotel);
+	List<Reserva> findReservasByIdHotel(Long idHotel);
 
 	Reserva findById(Long id);
 	
