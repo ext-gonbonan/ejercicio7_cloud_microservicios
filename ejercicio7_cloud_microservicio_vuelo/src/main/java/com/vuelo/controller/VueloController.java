@@ -45,8 +45,7 @@ public class VueloController {
             	@Parameter(description = "ID del vuelo a actualizar") @PathVariable("idVuelo") Long idVuelo,
             	@Parameter(description = "Número de plazas reservadas") @PathVariable("plazasReservadas") Integer plazasReservadas) {
         
-    	return vueloService.updateVueloPlazas(idVuelo, plazasReservadas)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Vuelo no encontrado con ID: " + idVuelo));
+    	return vueloService.updateVueloPlazas(idVuelo, plazasReservadas);
     }
 
     @Operation(summary = "Crear un nuevo vuelo", description = "Añade un nuevo vuelo a la base de datos")
@@ -60,10 +59,9 @@ public class VueloController {
     @Operation(summary = "Buscar vuelo por ID", description = "Busca un vuelo a partir del ID proporcionado en la dirección")
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Vuelo getVueloById(
-    			@Parameter(description = "ID del vuelo a buscar") 
-    			@PathVariable("id") Long id) {
+    			@Parameter(description = "ID del vuelo a buscar") @PathVariable("id") Long id) {
     	
-        return vueloService.findById(id).orElse(null);
+        return vueloService.findById(id);
     }
     
     @Operation(summary = "Actualizar un vuelo", description = "Actualiza los detalles de un vuelo existente")
@@ -72,18 +70,16 @@ public class VueloController {
     			@Parameter(description = "ID del vuelo a actualizar") @PathVariable("id") Long id, 
     			@Valid @RequestBody Vuelo vuelo) {
         
-    	return vueloService.updateVuelo(id, vuelo).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Vuelo no encontrado con ID: " + id));
+    	return vueloService.updateVuelo(id, vuelo);
     }
 
     @Operation(summary = "Eliminar un vuelo", description = "Elimina un vuelo a partir del ID proporcionado")
     @DeleteMapping(value = "/eliminar/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public void deleteVuelo(
-    			@Parameter(description = "ID del vuelo a eliminar") 
-    			@PathVariable("id") Long id) {
+    			@Parameter(description = "ID del vuelo a eliminar") @PathVariable("id") Long id) {
         
-    	if (!vueloService.deleteVuelo(id)) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Vuelo no encontrado con ID: " + id);
-        }
+    	vueloService.deleteVuelo(id);
     }
     
 }
+    

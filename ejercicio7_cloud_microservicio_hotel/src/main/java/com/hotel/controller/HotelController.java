@@ -35,31 +35,42 @@ public class HotelController {
 
     @Operation(summary = "Buscar hotel por nombre", description = "Busca un hotel a partir del nombre proporcionado en la dirección")
     @GetMapping(value = "/{nombre}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Hotel getHotelByNombre(@Parameter(description = "Nombre del hotel a buscar") @PathVariable("nombre") String nombre) {
+    public Hotel getHotelByNombre(
+    			@Parameter(description = "Nombre del hotel a buscar") @PathVariable("nombre") String nombre) {
+    	
     	return hotelService.findByName(nombre);
     }
 
     @Operation(summary = "Crear un nuevo hotel", description = "Añade un nuevo hotel a la base de datos")
     @PostMapping(value = "/crear", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Hotel createHotel(@Valid @RequestBody Hotel hotel) {
+    public Hotel createHotel(	
+    			@Valid @RequestBody Hotel hotel) {
+    	
     	return hotelService.saveHotel(hotel);
     }
 
     @Operation(summary = "Buscar hotel por ID", description = "Busca un hotel a partir del ID proporcionado en la dirección")
     @GetMapping(value = "/id/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Hotel getHotelById(@Parameter(description = "ID del hotel a buscar") @PathVariable("id") Long id) {
-        return hotelService.findById(id);
+    public Hotel getHotelById(
+    			@Parameter(description = "ID del hotel a buscar") @PathVariable("id") Long id) {
+        
+    	return hotelService.findById(id);
     }
     
     @Operation(summary = "Actualizar un hotel", description = "Actualiza los detalles de un hotel existente")
     @PutMapping(value = "/actualizar/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Hotel updateHotel(@Parameter(description = "ID del hotel a actualizar") @PathVariable("id") Long id, @Valid @RequestBody Hotel hotel) {
-        return hotelService.updateHotel(id, hotel);
+    public Hotel updateHotel(
+    			@Parameter(description = "ID del hotel a actualizar") @PathVariable("id") Long id, 
+    			@Valid @RequestBody Hotel hotel) {
+        
+    	return hotelService.updateHotel(id, hotel);
     }
 
     @Operation(summary = "Eliminar un hotel", description = "Elimina un hotel a partir del ID proporcionado")
     @DeleteMapping(value = "/eliminar/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public void deleteHotel(@Parameter(description = "ID del hotel a eliminar") @PathVariable("id") Long id) {
+    public void deleteHotel(
+    			@Parameter(description = "ID del hotel a eliminar") @PathVariable("id") Long id) {
+    	
         hotelService.deleteHotel(id);
     }
 	

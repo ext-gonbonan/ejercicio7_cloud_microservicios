@@ -27,14 +27,14 @@ public class VueloServiceImpl implements VueloService {
         return vueloDao.findByPlazasDisponiblesGreaterThanEqual(plazas);
     }
 
-    public Optional<Vuelo> updateVueloPlazas(Long idVuelo, Integer plazasReservadas) {
+    public Vuelo updateVueloPlazas(Long idVuelo, Integer plazasReservadas) {
         Optional<Vuelo> optionalVuelo = vueloDao.findById(idVuelo);
         if (optionalVuelo.isPresent()) {
             Vuelo vuelo = optionalVuelo.get();
             if (vuelo.getPlazasDisponibles() >= plazasReservadas) {
                 vuelo.setPlazasDisponibles(vuelo.getPlazasDisponibles() - plazasReservadas);
                 vueloDao.save(vuelo);
-                return Optional.of(vuelo);
+                return vuelo;
             } else {
                 throw new ResponseStatusException(HttpStatus.CONFLICT, "No hay suficientes plazas disponibles.");
             }
@@ -49,14 +49,14 @@ public class VueloServiceImpl implements VueloService {
     }
 
     @Override
-    public Optional<Vuelo> findById(Long id) {
-        return Optional.of(vueloDao.findById(id).orElseThrow(
+    public Vuelo findById(Long id) {
+        return (vueloDao.findById(id).orElseThrow(
         		()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "Vuelo no encontrado con ID: " + id))
         		);
     }
     
     @Override
-    public Optional<Vuelo> updateVuelo(Long id, Vuelo updatedVuelo) {
+    public Vuelo updateVuelo(Long id, Vuelo updatedVuelo) {
         Optional<Vuelo> existingVuelo = vueloDao.findById(id);
         if (existingVuelo.isPresent()) {
             Vuelo vuelo = existingVuelo.get();
@@ -64,7 +64,7 @@ public class VueloServiceImpl implements VueloService {
             vuelo.setFechaVuelo(updatedVuelo.getFechaVuelo());
             vuelo.setPrecio(updatedVuelo.getPrecio());
             vuelo.setPlazasDisponibles(updatedVuelo.getPlazasDisponibles());
-            return Optional.of(vueloDao.save(vuelo));
+            return vueloDao.save(vuelo);
         } else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Vuelo no encontrado con ID: " + id);
         }
