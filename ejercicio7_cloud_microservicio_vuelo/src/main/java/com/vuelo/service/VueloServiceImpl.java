@@ -1,6 +1,8 @@
 package com.vuelo.service;
 
 import com.vuelo.dao.VueloDao;
+import com.vuelo.exception.PlazasInsuficientesException;
+import com.vuelo.exception.VueloNotFoundException;
 import com.vuelo.model.Vuelo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -36,10 +38,10 @@ public class VueloServiceImpl implements VueloService {
                 vueloDao.save(vuelo);
                 return vuelo;
             } else {
-                throw new ResponseStatusException(HttpStatus.CONFLICT, "No hay suficientes plazas disponibles.");
+                throw new PlazasInsuficientesException("No hay suficientes plazas disponibles para el vuelo con ID: " + idVuelo);
             }
         } else {
-        	throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Vuelo no encontrado con ID: " + idVuelo);
+            throw new VueloNotFoundException("Vuelo no encontrado con ID: " + idVuelo);
         }
     }
 
