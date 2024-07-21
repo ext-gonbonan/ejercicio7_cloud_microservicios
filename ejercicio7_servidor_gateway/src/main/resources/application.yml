@@ -5,6 +5,7 @@ spring:
     gateway:
       default-filters:
         - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin
+        - AddResponseHeader=Access-Control-Allow-Origin, *
       globalcors:
         corsConfigurations:
           '[/]':
@@ -34,27 +35,52 @@ spring:
           filters:
             - RewritePath=/sreservas/(?<segment>.*), /reservas/${segment}
 
+        #- id: swaggerHotel
+        #  uri: lb://07-servicio-hotel
+        #  predicates:
+        #    - Path=/shoteles/v3/api-docs/**, /shoteles/swagger-ui/**, /shoteles/swagger-ui.html
+          #filters:
+          #  - RewritePath=/swagger-hotel/(?<segment>.*), /$\\{segment}
+
+  main:
+    web-application-type: reactive
+
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui.html
+    config-url: /v3/api-docs/swagger-config
+    urls:
+      - url: /v3/api-docs
+        name: API Gateway Service
+      - url: /shoteles/v3/api-docs
+        name: Hotel Service
+
 server:
   port: 9000
+
+
 
 logging:
   level:
     root: INFO
-    #'[org.springframework.cloud.gateway]': TRACE
+    '[org.springframework.cloud.gateway]': TRACE
     #'[org.springframework.cloud.gateway.filter.LoadBalancerClientFilter]': TRACE
     #'[org.springframework.cloud.gateway.route.RouteDefinitionRouteLocator]': INFO
     #'[org.springframework.cloud.gateway.handler.RoutePredicateHandlerMapping]': DEBUG
     #'[org.springframework.cloud.gateway.filter.GlobalFilter]': TRACE
     #'[com.netflix.discovery]': DEBUG
     #'[com.netflix.eureka]': DEBUG
-    #'[org.springframework.cloud.gateway.filter.NettyRoutingFilter]': TRACE
+    '[org.springframework.cloud.gateway.filter.NettyRoutingFilter]': TRACE
     #'[org.springframework.web.cors]': TRACE
     #'[org.springframework.http.server.reactive]': TRACE
     #'[org.springframework.web.reactive]': TRACE
     #'[reactor.netty]': DEBUG
     #'[redisratelimiter]': DEBUG
-    #'[org.springframework.web]': TRACE
-    #'[org.springframework.http]': TRACE
+    '[org.springframework.web]': TRACE
+    '[org.springframework.http]': TRACE
 
 
   #pattern:

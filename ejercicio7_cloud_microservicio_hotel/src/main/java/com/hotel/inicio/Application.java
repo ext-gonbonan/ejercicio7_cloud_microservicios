@@ -13,10 +13,14 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import com.hotel.dao.HotelDao;
 import com.hotel.model.Hotel;
 
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.info.Info;
+
 // Hotel
 @EnableDiscoveryClient
 @EntityScan(basePackages = {"com.hotel.model"})
 @EnableJpaRepositories(basePackages = {"com.hotel.dao"})
+@OpenAPIDefinition(info = @Info(title = "Hotel API", version = "1.0", description = "Documentation Hotel API v1.0"))
 @SpringBootApplication(scanBasePackages = {"com.hotel.controller","com.hotel.service", "com.hotel.inicio"})
 public class Application {
 
