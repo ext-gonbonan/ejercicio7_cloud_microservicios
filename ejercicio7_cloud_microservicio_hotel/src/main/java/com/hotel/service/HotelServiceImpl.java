@@ -23,14 +23,14 @@ public class HotelServiceImpl implements HotelService {
 	}
 
 	@Override
-	public Optional<Hotel> findByName(String name) {
-		return Optional.of(hotelDao.findByNombre(name).orElseThrow(
-				() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Hotel no encontrado con nombre: " + name))
+	public Hotel findByName(String name) {
+		return hotelDao.findByNombre(name).orElseThrow(
+				() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Hotel no encontrado con nombre: " + name)
 				);
 	}
 
 	@Override
-	public Optional<Hotel> saveHotel(Hotel hotel) {
+	public Hotel saveHotel(Hotel hotel) {
 		// Verifica si ya existe un hotel con el mismo nombre
         Optional<Hotel> existingHotel = hotelDao.findByNombre(hotel.getNombre());
         
@@ -40,18 +40,18 @@ public class HotelServiceImpl implements HotelService {
         }
                 
         // Si no existe, guarda el nuevo hotel y devuelve un Optional con el hotel guardado
-        return Optional.of(hotelDao.save(hotel));
+        return hotelDao.save(hotel);
 	}
 
 	@Override
-	public Optional<Hotel> findById(Long id) {
-		   return Optional.of(hotelDao.findById(id).orElseThrow(
+	public Hotel findById(Long id) {
+		   return (hotelDao.findById(id).orElseThrow(
 				   () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Hotel no encontrado con ID: " + id))
 				   );
 	}
 
 	@Override
-    public Optional<Hotel> updateHotel(Long id, Hotel updatedHotel) {
+    public Hotel updateHotel(Long id, Hotel updatedHotel) {
         Optional<Hotel> existingHotel = hotelDao.findById(id);
         if (existingHotel.isPresent()) {
             Hotel hotel = existingHotel.get();
@@ -59,7 +59,7 @@ public class HotelServiceImpl implements HotelService {
             hotel.setCategoria(updatedHotel.getCategoria());
             hotel.setPrecio(updatedHotel.getPrecio());
             hotel.setDisponible(updatedHotel.getDisponible());
-            return Optional.of(hotelDao.save(hotel));
+            return hotelDao.save(hotel);
         } else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Hotel no encontrado con ID: " + id);
         }
