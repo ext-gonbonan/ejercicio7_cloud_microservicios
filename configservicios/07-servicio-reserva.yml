@@ -30,7 +30,7 @@ server:
 # Configuración Spring Doc
 openapi:
   service:
-    title: 07-servicio-hotel doc
+    title: 07-servicio-reserva doc
     version: 1.0.0
     url: http://localhost:9000 #api gateway url
 springdoc:
