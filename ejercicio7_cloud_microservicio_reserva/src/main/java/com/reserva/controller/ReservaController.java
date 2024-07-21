@@ -7,11 +7,8 @@ import io.swagger.v3.oas.annotations.Parameter;
 import jakarta.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
-
 import java.util.List;
 
 @CrossOrigin(origins = "*")  // Permitimos solicitudes desde cualquier origen
@@ -45,7 +42,7 @@ public class ReservaController {
 				@Parameter(description = "ID de la reserva a buscar") 
 				@PathVariable("id") Long id) {
 		
-		return reservaService.findById(id).orElse(null);
+		return reservaService.findById(id);
 	}
 	
 	@Operation(summary = "Actualizar una reserva", description = "Actualiza los detalles de una reserva existente")
@@ -53,7 +50,8 @@ public class ReservaController {
     public Reserva updateReserva(
     			@Parameter(description = "ID de la reserva a actualizar") 
     			@PathVariable("id") Long id, @Valid @RequestBody Reserva reserva) {
-        return reservaService.updateReserva(id, reserva).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Reserva no encontrada con ID: " + id));
+		
+        return reservaService.updateReserva(id, reserva);
     }
 
     @Operation(summary = "Eliminar una reserva", description = "Elimina una reserva a partir del ID proporcionado")
@@ -62,9 +60,7 @@ public class ReservaController {
     			@Parameter(description = "ID de la reserva a eliminar") 
     			@PathVariable("id") Long id) {
     	
-        if (!reservaService.deleteReserva(id)) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Reserva no encontrada con ID: " + id);
-        }
+        reservaService.deleteReserva(id);
     }
-
+    
 }

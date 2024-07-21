@@ -45,8 +45,8 @@ public class ReservaServiceImpl implements ReservaService {
 	}
 
 	@Override
-	public Optional<Reserva> findById(Long id) {
-		 return Optional.of(reservaDao.findById(id).orElseThrow(
+	public Reserva findById(Long id) {
+		 return (reservaDao.findById(id).orElseThrow(
 				 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Reserva no encontrada con ID: " + id))
 				 );
 	}
@@ -55,12 +55,11 @@ public class ReservaServiceImpl implements ReservaService {
 	public List<Reserva> findReservasByNombreHotel(String nombreHotel) {
 		// Obtener idHotel del microservicio de hotel
 		Long idHotel = restTemplate.getForObject(HOTEL_SERVICE_URL + "/" + nombreHotel, Long.class);
-		
 		return reservaDao.findByIdHotel(idHotel);
 	}
 	
 	@Override
-    public Optional<Reserva> updateReserva(Long id, Reserva updatedReserva) {
+    public Reserva updateReserva(Long id, Reserva updatedReserva) {
         Optional<Reserva> existingReserva = reservaDao.findById(id);
         if (existingReserva.isPresent()) {
             Reserva reserva = existingReserva.get();
@@ -68,7 +67,7 @@ public class ReservaServiceImpl implements ReservaService {
             reserva.setDni(updatedReserva.getDni());
             reserva.setIdHotel(updatedReserva.getIdHotel());
             reserva.setIdVuelo(updatedReserva.getIdVuelo());
-            return Optional.of(reservaDao.save(reserva));
+            return reservaDao.save(reserva);
         } else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Reserva no encontrada con ID: " + id);
         }
