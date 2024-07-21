@@ -43,11 +43,19 @@ public class HotelController {
     }
 
     @Operation(summary = "Buscar hotel por nombre", description = "Busca un hotel a partir del nombre proporcionado en la dirección")
-    @GetMapping(value = "/{nombre}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/nombre/{nombre}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Hotel getHotelByNombre(
     			@Parameter(description = "Nombre del hotel a buscar") @PathVariable("nombre") String nombre) {
     	
     	return hotelService.findByName(nombre);
+    }
+    
+    @Operation(summary = "Obtener ID de hotel por nombre", description = "Obtiene el ID de un hotel a partir del nombre proporcionado")
+    @GetMapping(value = "/idPorNombre/{nombre}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Long getHotelIdByName(
+            	@Parameter(description = "Nombre del hotel para obtener el ID") @PathVariable("nombre") String nombre) {
+        
+    	return hotelService.findIdByName(nombre);
     }
 
     @Operation(summary = "Crear un nuevo hotel", description = "Añade un nuevo hotel a la base de datos")

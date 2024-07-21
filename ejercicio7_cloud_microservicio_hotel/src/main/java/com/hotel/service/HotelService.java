@@ -8,6 +8,8 @@ public interface HotelService {
 	List<Hotel> findAllAvailable();
 
 	Hotel findByName(String name);
+	
+	Long findIdByName(String nombre);
 
 	Hotel saveHotel(Hotel hotel);
 	

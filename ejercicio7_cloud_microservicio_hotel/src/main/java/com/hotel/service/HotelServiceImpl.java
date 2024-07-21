@@ -28,6 +28,16 @@ public class HotelServiceImpl implements HotelService {
 				() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Hotel no encontrado con nombre: " + name)
 				);
 	}
+	
+	@Override
+	public Long findIdByName(String nombre) {
+	    Optional<Hotel> optionalHotel = hotelDao.findByNombre(nombre);
+	    if (optionalHotel.isPresent()) {
+	        return optionalHotel.get().getId();
+	    } else {
+	        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Hotel no encontrado con nombre: " + nombre);
+	    }
+	}
 
 	@Override
 	public Hotel saveHotel(Hotel hotel) {

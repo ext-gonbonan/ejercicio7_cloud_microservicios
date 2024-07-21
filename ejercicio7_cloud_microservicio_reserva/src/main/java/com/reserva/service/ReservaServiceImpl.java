@@ -54,7 +54,7 @@ public class ReservaServiceImpl implements ReservaService {
 	@Override
 	public List<Reserva> findReservasByNombreHotel(String nombreHotel) {
 		// Obtener idHotel del microservicio de hotel
-		Long idHotel = restTemplate.getForObject(HOTEL_SERVICE_URL + "/" + nombreHotel, Long.class);
+		Long idHotel = restTemplate.getForObject(HOTEL_SERVICE_URL + "/idPorNombre/" + nombreHotel, Long.class);
 		return reservaDao.findByIdHotel(idHotel);
 	}
 	
