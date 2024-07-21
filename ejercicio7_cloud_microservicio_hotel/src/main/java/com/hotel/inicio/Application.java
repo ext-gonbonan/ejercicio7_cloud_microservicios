@@ -9,6 +9,7 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.web.client.RestTemplate;
 
 import com.hotel.dao.HotelDao;
 import com.hotel.model.Hotel;
@@ -20,12 +21,17 @@ import io.swagger.v3.oas.annotations.info.Info;
 @EnableDiscoveryClient
 @EntityScan(basePackages = {"com.hotel.model"})
 @EnableJpaRepositories(basePackages = {"com.hotel.dao"})
-@OpenAPIDefinition(info = @Info(title = "Hotel API", version = "1.0", description = "Documentation Hotel API v1.0"))
+@OpenAPIDefinition(info = @Info(title = "Hotel API", version = "1.0", description = "Documentación Hotel API v1.0"))
 @SpringBootApplication(scanBasePackages = {"com.hotel.controller","com.hotel.service", "com.hotel.inicio"})
 public class Application {
 
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
+    }
+    
+    @Bean
+    public RestTemplate restTemplate() {
+        return new RestTemplate();
     }
 
     @Bean
